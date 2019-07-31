@@ -28,7 +28,7 @@ public class ReClicker {
 	private JButton btnAsStart = new JButton("Start [F8]");
 	private JButton btnAsStop = new JButton("Stop [F9]");
 	private JTextArea textAreaLog = new JTextArea();
-	private String version = "v0.0.1";
+	private String version = "v0.0.1-earlyalpha";
 
 	/**
 	 * Main
@@ -148,7 +148,7 @@ public class ReClicker {
 		 * reClicker Area
 		 */
 		
-		frmReclicker.setTitle("reClicker | " + version + "-EarlyAlpha");
+		frmReclicker.setTitle("reClicker | " + version);
 	}
 
 	public JTextArea getTextAreaLog() {
