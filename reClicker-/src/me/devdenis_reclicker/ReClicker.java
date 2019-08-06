@@ -1,6 +1,13 @@
 package me.devdenis_reclicker;
 
 import java.awt.EventQueue;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,8 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
-import me.devdenis_reclicker.logger.LogTypes;
-import me.devdenis_reclicker.logger.Logger;
+import me.devdenis_reclicker.logger.ReLogger;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -22,7 +28,7 @@ public class ReClicker {
 	
 	public static ReClicker instance = new ReClicker();
 	
-	private JFrame frmReclicker;
+	public JFrame frmReclicker;
 	private JTextField textFieldAc;
 	private JTextField textFieldAs;
 	private JTextField textFieldAsMs;
@@ -34,8 +40,9 @@ public class ReClicker {
 	private JButton btnAsStart = new JButton("Start [F8]");
 	private JButton btnAsStop = new JButton("Stop [F9]");
 	private JTextArea textAreaLog = new JTextArea();
-	private String version = "v0.0.2-earlyalpha";
-	private static Logger logger = new Logger();
+	private String version = "v0.0.2.1-earlyalpha";
+	private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+	private ReLogger loggerInstance;
 
 
 	
@@ -47,6 +54,22 @@ public class ReClicker {
 			public void run() {
 				try {
 					instance.frmReclicker.setVisible(true);
+					try {
+						Path path = Paths.get(System.getProperty("user.home") + File.separator + "reClicker");
+						if(!Files.exists(path)) {
+						//Main Dir
+						Files.createDirectories(path);
+						//Log Dir
+						Files.createDirectories(Paths.get(System.getProperty("user.home") + File.separator + "reClicker" + File.separator + "logs"));
+						}
+					} catch (IOException e) {
+						String stackTrace = "";
+						for (int i = 0; i <= 1; i++) {
+							stackTrace += e.getStackTrace()[i] + "\n";
+						}
+						JOptionPane.showMessageDialog(instance.frmReclicker, "Cannot create reClicker directorys! \n" + "Please report this error on GitHub!\n" + "Error: " + stackTrace);
+					}
+					instance.loggerInstance = new ReLogger();
 					instance.init();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,7 +89,6 @@ public class ReClicker {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		try {
 			frmReclicker = new JFrame();
 			frmReclicker.setTitle("reClicker");
 			frmReclicker.setBounds(100, 100, 525, 300);
@@ -159,35 +181,55 @@ public class ReClicker {
 			 * reClicker Area
 			 */
 			frmReclicker.setTitle("reClicker | " + version);
-			
-		} catch (Exception ev) {
-			frmReclicker.setTitle("reClicker | Error while start!");
-			String s = "";
-			for (int i = 0; i <= 1; i++) {
-				s += ev.getStackTrace()[i] + "\n";
-			}
-			ev.printStackTrace();
-			JOptionPane.showMessageDialog(frmReclicker, "Error while starting reClicker " + version + "! \n Please report this error at Github! \nError: " + s);
-		}
-		
 	}
 	
 	private void init() {
-		logger.log(LogTypes.INFO, "reClicker " + version + " started!");
-		logger.log(LogTypes.SYS, "Get ready to spam!");
+		
+			try {
+				Path path = Paths.get(System.getProperty("user.home") + File.separator + "reClicker");
+				if(!Files.exists(path)) {
+				//Main Dir
+				Files.createDirectories(path);
+				//Log Dir
+				Files.createDirectories(Paths.get(System.getProperty("user.home") + File.separator + "reClicker" + File.separator + "logs"));
+				
+				log(Level.INFO, "Created reClicker directorys!");
+				} else {
+					log(Level.INFO, "reClicker directory is already created!");
+				}
+			} catch (IOException e) {
+				log(Level.SEVERE, "Cannot create reClicker directory!");
+			}
+		
+		log(Level.INFO, "reClicker " + version + " started!");
+		log(Level.INFO, "Get ready to spam!");
 	}
 	
 	public static ReClicker getInstance() {
 		return instance;
 	}
+	
+	
 
 	public JTextArea getTextAreaLog() {
 		return textAreaLog;
 	}
 
 
-	public Logger getLogger() {
-		return logger;
+	public void log(Level level, String msg) {
+		loggerInstance.getLogger().log(level, msg);
+	}
+	
+	public void log(Level level, String msg, Exception e) {
+		loggerInstance.getLogger().log(level, msg, e);
+	}
+
+	public SimpleDateFormat getDate() {
+		return date;
+	}
+
+	public String getVersion() {
+		return version;
 	}
 	
 	
