@@ -11,6 +11,7 @@ import java.util.logging.Level;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
@@ -40,9 +41,11 @@ public class ReClicker {
 	private JButton btnAsStart = new JButton("Start [F8]");
 	private JButton btnAsStop = new JButton("Stop [F9]");
 	private JTextArea textAreaLog = new JTextArea();
-	private String version = "v0.0.2.1-earlyalpha";
+	private String version = "v0.0.3-earlyalpha";
 	private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 	private ReLogger loggerInstance;
+	private ClickerManager clickerManager = new ClickerManager();
+	private SpamManager spamManager = new SpamManager();
 
 
 	
@@ -51,6 +54,7 @@ public class ReClicker {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					instance.frmReclicker.setVisible(true);
@@ -94,6 +98,7 @@ public class ReClicker {
 			frmReclicker.setBounds(100, 100, 525, 300);
 			frmReclicker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frmReclicker.getContentPane().setLayout(null);
+			
 			
 			JPanel aCPanel = new JPanel();
 			aCPanel.setBorder(new TitledBorder(null, "AutoClicker", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -171,11 +176,16 @@ public class ReClicker {
 			
 			JPanel panel_2 = new JPanel();
 			panel_2.setBounds(273, 11, 226, 239);
-			frmReclicker.getContentPane().add(panel_2);
 			panel_2.setLayout(null);
 			
+			JScrollPane sPane = new JScrollPane(textAreaLog);
+			panel_2.add(sPane);
+
+			frmReclicker.getContentPane().add(panel_2);
+			
+			sPane.setBounds(0, 0, 226, 239);
 			textAreaLog.setBounds(0, 0, 226, 239);
-			panel_2.add(textAreaLog);
+			
 			
 			/*
 			 * reClicker Area
@@ -218,10 +228,12 @@ public class ReClicker {
 
 	public void log(Level level, String msg) {
 		loggerInstance.getLogger().log(level, msg);
+		textAreaLog.append("[" + level + "] " + msg + "\n");
 	}
 	
 	public void log(Level level, String msg, Exception e) {
 		loggerInstance.getLogger().log(level, msg, e);
+		textAreaLog.append("[" + level + "] " + msg + ": " + e);
 	}
 
 	public SimpleDateFormat getDate() {
@@ -230,6 +242,14 @@ public class ReClicker {
 
 	public String getVersion() {
 		return version;
+	}
+
+	public ClickerManager getClickerManager() {
+		return clickerManager;
+	}
+
+	public SpamManager getSpamManager() {
+		return spamManager;
 	}
 	
 	
