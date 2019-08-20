@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultCaret;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
@@ -28,7 +28,6 @@ import me.devdenis_reclicker.logger.ReLogger;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
@@ -50,7 +49,7 @@ public class ReClicker {
 	private JButton btnAsStart = new JButton("Start [F8]");
 	private JButton btnAsStop = new JButton("Stop [F9]");
 	private JTextArea textAreaLog = new JTextArea();
-	private String version = "v0.0.6-earlyalpha";
+	private String version = "v0.5.0-beta";
 	private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 	private ReLogger loggerInstance;
 	private ClickerManager clickerManager = new ClickerManager();
@@ -107,7 +106,8 @@ public class ReClicker {
 			frmReclicker.setBounds(100, 100, 525, 300);
 			frmReclicker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frmReclicker.getContentPane().setLayout(null);
-			
+			frmReclicker.setAlwaysOnTop(true);
+			frmReclicker.setResizable(false);
 			
 			JPanel aCPanel = new JPanel();
 			aCPanel.setBorder(new TitledBorder(null, "AutoClicker", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -162,7 +162,6 @@ public class ReClicker {
 			textFieldAs.setText("Your Text goes here!");
 			textFieldAs.setToolTipText("Your Text goes here!");
 			textFieldAs.setBounds(48, 20, 195, 20);
-			textFieldAs.setText("1");
 			aSPanel.add(textFieldAs);
 			textFieldAs.setColumns(10);
 			
@@ -174,6 +173,7 @@ public class ReClicker {
 			textFieldAsMs.setToolTipText("Clickspeed in MS");
 			textFieldAsMs.setColumns(10);
 			textFieldAsMs.setBounds(10, 51, 48, 20);
+			textFieldAsMs.setText("1");
 			aSPanel.add(textFieldAsMs);
 			
 			JLabel label = new JLabel("ms");
@@ -215,6 +215,8 @@ public class ReClicker {
 			sPane.setBounds(0, 0, 226, 239);
 			textAreaLog.setBounds(0, 0, 226, 239);
 			textAreaLog.setEditable(false);
+			DefaultCaret caret = (DefaultCaret)textAreaLog.getCaret();
+			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 			
 			/*
 			 * reClicker Area
@@ -289,7 +291,19 @@ public class ReClicker {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("DEBUG SPAM START");
+				String content;
+				int speed;
+				try {
+					content = textFieldAs.getText();
+					speed = Integer.parseInt(textFieldAsMs.getText());
+					spamManager.startSpam(content, speed);
+					btnAsStart.setEnabled(false);
+					btnAsStop.setEnabled(true);
+					log(Level.INFO, "Starting spamming senpai! \n Content: " + content + " \n Speed: " + speed + "ms");
+				} catch(Exception ev) {
+					JOptionPane.showMessageDialog(frmReclicker, "Only numbers allowed as Spamspeed.");
+					log(Level.WARNING, "In TextField for As are not only numbers.", ev);
+				}
 			}
 		});
 		
@@ -297,7 +311,10 @@ public class ReClicker {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("DEBUG SPAM STOP");
+				spamManager.stopSpam();
+				btnAsStart.setEnabled(true);
+				btnAsStop.setEnabled(false);
+				log(Level.INFO, "Stopped spamming master!");
 			}
 		});
 	}
@@ -319,7 +336,8 @@ public class ReClicker {
 	
 	public void log(Level level, String msg, Exception e) {
 		loggerInstance.getLogger().log(level, msg, e);
-		textAreaLog.append("[" + level + "] " + msg + " !Exception! = " + e);
+		loggerInstance.getLogger().log(level, "Error: " + e);
+		textAreaLog.append("[" + level + "] " + msg + " !Exception! = " + e + "\n");
 	}
 
 	public SimpleDateFormat getDate() {
