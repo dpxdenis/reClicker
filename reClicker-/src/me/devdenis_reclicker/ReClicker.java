@@ -50,7 +50,7 @@ public class ReClicker {
 	private JButton btnAsStart = new JButton("Start [F8]");
 	private JButton btnAsStop = new JButton("Stop [F9]");
 	private JTextArea textAreaLog = new JTextArea();
-	private String version = "v0.0.5-earlyalpha";
+	private String version = "v0.0.6-earlyalpha";
 	private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 	private ReLogger loggerInstance;
 	private ClickerManager clickerManager = new ClickerManager();
