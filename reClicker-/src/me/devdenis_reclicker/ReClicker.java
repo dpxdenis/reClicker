@@ -1,6 +1,5 @@
 package me.devdenis_reclicker;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,20 +18,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultCaret;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
-import me.devdenis_reclicker.components.ReButton;
-import me.devdenis_reclicker.components.ReTextField;
 import me.devdenis_reclicker.logger.ReLogger;
 
+import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
+import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 public class ReClicker {
@@ -40,18 +38,18 @@ public class ReClicker {
 	public static ReClicker instance = new ReClicker();
 	
 	public JFrame frmReclicker;
-	private ReTextField textFieldAc;
-	private ReTextField textFieldAs;
-	private ReTextField textFieldAsMs;
+	private JTextField textFieldAc;
+	private JTextField textFieldAs;
+	private JTextField textFieldAsMs;
 	private JComboBox<String> cBac = new JComboBox<String>();
 	private JComboBox<String> cbAs = new JComboBox<String>();
 	private JCheckBox chckbxAc = new JCheckBox("Rightclick?");	
-	private ReButton btnAcStart = new ReButton("Start [F6]");
-	private ReButton btnAcStop = new ReButton("Stop [F7]");
-	private ReButton btnAsStart = new ReButton("Start [F8]");
-	private ReButton btnAsStop = new ReButton("Stop [F9]");
+	private JButton btnAcStart = new JButton("Start [F6]");
+	private JButton btnAcStop = new JButton("Stop [F7]");
+	private JButton btnAsStart = new JButton("Start [F8]");
+	private JButton btnAsStop = new JButton("Stop [F9]");
 	private JTextArea textAreaLog = new JTextArea();
-	private String version = "v0.6.0-beta";
+	private String version = "v0.5.0-beta";
 	private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 	private ReLogger loggerInstance;
 	private ClickerManager clickerManager = new ClickerManager();
@@ -107,20 +105,17 @@ public class ReClicker {
 			frmReclicker.setTitle("reClicker");
 			frmReclicker.setBounds(100, 100, 525, 300);
 			frmReclicker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frmReclicker.getContentPane().setBackground(new Color(32,32,32));
 			frmReclicker.getContentPane().setLayout(null);
 			frmReclicker.setAlwaysOnTop(true);
 			frmReclicker.setResizable(false);
-			frmReclicker.setLocationRelativeTo(null);
 			
 			JPanel aCPanel = new JPanel();
-			aCPanel.setBorder(new TitledBorder(new LineBorder(new Color(100,100,100)), "AutoClicker", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(150,150,150)));
+			aCPanel.setBorder(new TitledBorder(null, "AutoClicker", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			aCPanel.setBounds(10, 11, 253, 110);
 			frmReclicker.getContentPane().add(aCPanel);
 			aCPanel.setLayout(null);
-			aCPanel.setBackground(new Color(32,32,32));
 			
-			textFieldAc = new ReTextField();
+			textFieldAc = new JTextField();
 			textFieldAc.setToolTipText("Clickspeed in MS");
 			textFieldAc.setBounds(10, 23, 48, 20);
 			textFieldAc.setText("1");
@@ -129,12 +124,10 @@ public class ReClicker {
 			
 			JLabel lblOr = new JLabel("or");
 			lblOr.setBounds(97, 26, 46, 14);
-			lblOr.setForeground(new Color(255,255,255));
 			aCPanel.add(lblOr);
 			
 			JLabel lblMs = new JLabel("ms");
 			lblMs.setBounds(59, 26, 46, 14);
-			lblMs.setForeground(new Color(255,255,255));
 			aCPanel.add(lblMs);
 			
 			cBac.setModel(new DefaultComboBoxModel<String>(new String[] {"1 ms", "2 ms", "3 ms", "4 ms", "5 ms", "6 ms", "7 ms", "8 ms", "9 ms", "10 ms", "15 ms ", "20 ms", "30 ms", "40 ms", "50 ms", "60 ms", "70 ms", "80 ms", "90 ms", "100 ms", "110 ms", "120 ms", "130 ms", "140 ms", "150 ms", "160 ms", "170 ms", "180 ms", "190 ms", "200 ms", "300 ms", "400 ms", "500 ms", "600 ms", "700 ms", "800 ms", "900 ms", "1000 ms", "2000 ms", "3000 ms", "4000 ms", "5000 ms", "6000 ms", "7000 ms", "8000 ms", "9000 ms", "10000 ms"}));
@@ -150,9 +143,6 @@ public class ReClicker {
 			aCPanel.add(cBac);
 			
 			chckbxAc.setBounds(10, 50, 97, 23);
-			chckbxAc.setBackground(new Color(32,32,32));
-			chckbxAc.setForeground(new Color(200,200,200));
-			chckbxAc.setFocusPainted(false);
 			aCPanel.add(chckbxAc);
 			
 			btnAcStart.setBounds(10, 76, 89, 23);
@@ -163,13 +153,12 @@ public class ReClicker {
 			btnAcStop.setEnabled(false);
 			
 			JPanel aSPanel = new JPanel();
-			aSPanel.setBorder(new TitledBorder(new LineBorder(new Color(100,100,100)), "AutoSpammer", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(150,150,150)));
+			aSPanel.setBorder(new TitledBorder(null, "AutoSpammer", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			aSPanel.setBounds(10, 132, 253, 110);
 			frmReclicker.getContentPane().add(aSPanel);
 			aSPanel.setLayout(null);
-			aSPanel.setBackground(new Color(32,32,32));
 			
-			textFieldAs = new ReTextField();
+			textFieldAs = new JTextField();
 			textFieldAs.setText("Your Text goes here!");
 			textFieldAs.setToolTipText("Your Text goes here!");
 			textFieldAs.setBounds(48, 20, 195, 20);
@@ -178,10 +167,9 @@ public class ReClicker {
 			
 			JLabel lblText = new JLabel("Text:");
 			lblText.setBounds(10, 23, 46, 14);
-			lblText.setForeground(new Color(255,255,255));
 			aSPanel.add(lblText);
 			
-			textFieldAsMs = new ReTextField();
+			textFieldAsMs = new JTextField();
 			textFieldAsMs.setToolTipText("Clickspeed in MS");
 			textFieldAsMs.setColumns(10);
 			textFieldAsMs.setBounds(10, 51, 48, 20);
@@ -190,17 +178,14 @@ public class ReClicker {
 			
 			JLabel label = new JLabel("ms");
 			label.setBounds(59, 54, 46, 14);
-			label.setForeground(new Color(255,255,255));
 			aSPanel.add(label);
 			
 			JLabel label_1 = new JLabel("or");
 			label_1.setBounds(97, 54, 46, 14);
-			label_1.setForeground(new Color(255,255,255));
 			aSPanel.add(label_1);
 			
 			cbAs.setModel(new DefaultComboBoxModel<String>(new String[] {"1 ms", "2 ms", "3 ms", "4 ms", "5 ms", "6 ms", "7 ms", "8 ms", "9 ms", "10 ms", "15 ms ", "20 ms", "30 ms", "40 ms", "50 ms", "60 ms", "70 ms", "80 ms", "90 ms", "100 ms", "110 ms", "120 ms", "130 ms", "140 ms", "150 ms", "160 ms", "170 ms", "180 ms", "190 ms", "200 ms", "300 ms", "400 ms", "500 ms", "600 ms", "700 ms", "800 ms", "900 ms", "1000 ms", "2000 ms", "3000 ms", "4000 ms", "5000 ms", "6000 ms", "7000 ms", "8000 ms", "9000 ms", "10000 ms"}));
 			cbAs.setBounds(132, 51, 60, 20);
-			cbAs.setBackground(new Color(32,32,32));
 			cbAs.addItemListener(new ItemListener() {
 				
 				@Override
@@ -230,8 +215,6 @@ public class ReClicker {
 			sPane.setBounds(0, 0, 226, 239);
 			textAreaLog.setBounds(0, 0, 226, 239);
 			textAreaLog.setEditable(false);
-			textAreaLog.setBackground(new Color(32,32,32));
-			textAreaLog.setForeground(new Color(255,255,255));
 			DefaultCaret caret = (DefaultCaret)textAreaLog.getCaret();
 			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 			
@@ -373,19 +356,19 @@ public class ReClicker {
 		return spamManager;
 	}
 
-	public ReButton getBtnAcStart() {
+	public JButton getBtnAcStart() {
 		return btnAcStart;
 	}
 
-	public ReButton getBtnAcStop() {
+	public JButton getBtnAcStop() {
 		return btnAcStop;
 	}
 
-	public ReButton getBtnAsStart() {
+	public JButton getBtnAsStart() {
 		return btnAsStart;
 	}
 
-	public ReButton getBtnAsStop() {
+	public JButton getBtnAsStop() {
 		return btnAsStop;
 	}
 	
