@@ -34,6 +34,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 public class ReClicker {
 	
@@ -51,7 +52,7 @@ public class ReClicker {
 	private ReButton btnAsStart = new ReButton("Start [F8]");
 	private ReButton btnAsStop = new ReButton("Stop [F9]");
 	private JTextArea textAreaLog = new JTextArea();
-	private String version = "v0.6.1-beta";
+	private String version = "v1.0";
 	private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 	private ReLogger loggerInstance;
 	private ClickerManager clickerManager = new ClickerManager();
@@ -133,12 +134,15 @@ public class ReClicker {
 			aCPanel.add(lblOr);
 			
 			JLabel lblMs = new JLabel("ms");
-			lblMs.setBounds(59, 26, 46, 14);
+			lblMs.setBounds(65, 26, 46, 14);
 			lblMs.setForeground(new Color(255,255,255));
 			aCPanel.add(lblMs);
 			
 			cBac.setModel(new DefaultComboBoxModel<String>(new String[] {"1 ms", "2 ms", "3 ms", "4 ms", "5 ms", "6 ms", "7 ms", "8 ms", "9 ms", "10 ms", "15 ms ", "20 ms", "30 ms", "40 ms", "50 ms", "60 ms", "70 ms", "80 ms", "90 ms", "100 ms", "110 ms", "120 ms", "130 ms", "140 ms", "150 ms", "160 ms", "170 ms", "180 ms", "190 ms", "200 ms", "300 ms", "400 ms", "500 ms", "600 ms", "700 ms", "800 ms", "900 ms", "1000 ms", "2000 ms", "3000 ms", "4000 ms", "5000 ms", "6000 ms", "7000 ms", "8000 ms", "9000 ms", "10000 ms"}));
 			cBac.setBounds(132, 23, 60, 20);
+			cBac.setBackground(new Color(32,32,32));
+			cBac.setBorder(new LineBorder(new Color(150,150,150)));
+			cBac.setForeground(new Color(150,150,150));
 			cBac.addItemListener(new ItemListener() {
 				
 				@Override
@@ -189,7 +193,7 @@ public class ReClicker {
 			aSPanel.add(textFieldAsMs);
 			
 			JLabel label = new JLabel("ms");
-			label.setBounds(59, 54, 46, 14);
+			label.setBounds(65, 54, 46, 14);
 			label.setForeground(new Color(255,255,255));
 			aSPanel.add(label);
 			
@@ -201,6 +205,8 @@ public class ReClicker {
 			cbAs.setModel(new DefaultComboBoxModel<String>(new String[] {"1 ms", "2 ms", "3 ms", "4 ms", "5 ms", "6 ms", "7 ms", "8 ms", "9 ms", "10 ms", "15 ms ", "20 ms", "30 ms", "40 ms", "50 ms", "60 ms", "70 ms", "80 ms", "90 ms", "100 ms", "110 ms", "120 ms", "130 ms", "140 ms", "150 ms", "160 ms", "170 ms", "180 ms", "190 ms", "200 ms", "300 ms", "400 ms", "500 ms", "600 ms", "700 ms", "800 ms", "900 ms", "1000 ms", "2000 ms", "3000 ms", "4000 ms", "5000 ms", "6000 ms", "7000 ms", "8000 ms", "9000 ms", "10000 ms"}));
 			cbAs.setBounds(132, 51, 60, 20);
 			cbAs.setBackground(new Color(32,32,32));
+			cbAs.setBorder(new LineBorder(new Color(150,150,150)));
+			cbAs.setForeground(new Color(150,150,150));
 			cbAs.addItemListener(new ItemListener() {
 				
 				@Override
@@ -223,6 +229,7 @@ public class ReClicker {
 			panel_2.setLayout(null);
 			
 			JScrollPane sPane = new JScrollPane(textAreaLog);
+			sPane.setBorder(new LineBorder(new Color(50,50,50)));
 			panel_2.add(sPane);
 
 			frmReclicker.getContentPane().add(panel_2);
@@ -231,14 +238,14 @@ public class ReClicker {
 			textAreaLog.setBounds(0, 0, 226, 239);
 			textAreaLog.setEditable(false);
 			textAreaLog.setBackground(new Color(32,32,32));
-			textAreaLog.setForeground(new Color(255,255,255));
+			textAreaLog.setForeground(new Color(100,100,100));
 			DefaultCaret caret = (DefaultCaret)textAreaLog.getCaret();
 			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 			
 			/*
 			 * reClicker Area
 			 */
-			frmReclicker.setTitle("reClicker | " + version);
+			frmReclicker.setTitle("reClicker | Lets farm some cookies!");
 	}
 	
 	private void init() {
